@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
-use std::ops::DerefMut;
+//use std::ops::DerefMut;
 
-declare_id!("F75bTjnaqScc9VZz6p5dKxFyxdBNQ48g7UURVZCwTSyH");
+declare_id!("J2TQTK27BLdPAnYKZEGyyBWVta5xdsukf1iUynESrgAX");
 
 #[program]
 pub mod ticket_system {
@@ -42,15 +42,20 @@ pub mod ticket_system {
 
         Ok(())
     }
+
+    pub fn close_ticket(_ctx: Context<CloseTicket>,id: String) -> Result<()> {
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
+#[instruction(id: String)]
 pub struct CreateTicket<'info> {
     #[account(
         init,
         payer = user,
         space = Ticket::SIZE,
-        seeds = [b"ticket"],
+        seeds = [b"ticket", user.key().as_ref(), id.as_ref()],
         bump
     )]
     ticket: Account<'info, Ticket>,
@@ -63,6 +68,20 @@ pub struct CreateTicket<'info> {
     fee_collector: AccountInfo<'info>,
 
     system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+#[instruction(id: String)]
+pub struct CloseTicket<'info> {
+    #[account(
+        mut,
+        close = user,
+        seeds = [b"ticket", user.key().as_ref(), id.as_ref()],
+        bump
+    )]
+
+    #[account(mut)]
+    user: Signer<'info>,
 }
 
 #[account]

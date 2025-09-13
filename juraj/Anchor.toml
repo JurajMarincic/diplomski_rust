@@ -5,7 +5,7 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-juraj = "F75bTjnaqScc9VZz6p5dKxFyxdBNQ48g7UURVZCwTSyH"
+juraj = "J2TQTK27BLdPAnYKZEGyyBWVta5xdsukf1iUynESrgAX"
 
 [registry]
 url = "https://api.apr.dev"
